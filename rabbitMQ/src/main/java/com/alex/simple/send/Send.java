@@ -18,9 +18,9 @@ public class Send {
         //创建连接工厂
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("47.116.128.174");
-        factory.setUsername("root");
+        factory.setUsername("zdl");
         factory.setVirtualHost("/demo");
-        factory.setPassword("alex");
+        factory.setPassword("2021");
         factory.setPort(5672);
         try (
                 //Connection继承Closeable继承AutoCloseable,所以try不需要catch

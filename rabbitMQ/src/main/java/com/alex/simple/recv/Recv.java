@@ -17,9 +17,9 @@ public class Recv {
         //创建连接工厂
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("47.116.128.174");
-        factory.setUsername("root");
+        factory.setUsername("zdl");
         factory.setVirtualHost("/demo");
-        factory.setPassword("alex");
+        factory.setPassword("2021");
         factory.setPort(5672);
         //连接工厂创建连接
         Connection connection = factory.newConnection();
