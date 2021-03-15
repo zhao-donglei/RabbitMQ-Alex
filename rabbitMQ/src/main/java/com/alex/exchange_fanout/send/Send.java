@@ -1,11 +1,9 @@
-package com.alex.exchanges.send;
+package com.alex.exchange_fanout.send;
 
 import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
-
-import java.nio.charset.StandardCharsets;
 
 /**
  * 发布/订阅--消息生产者

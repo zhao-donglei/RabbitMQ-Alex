@@ -1,14 +1,14 @@
-package com.alex.exchanges.recv;
+package com.alex.exchange_direct.recv;
 
 import com.rabbitmq.client.*;
 
 /**
- * 发布/订阅-消息消费者
+ * 路由队列-消息消费者
  */
-public class Recv02 {
+public class Recv01 {
 
     //定义交换机
-    private final static String EXCHANGE_NAME = "exchange_fanout";
+    private final static String EXCHANGE_NAME = "exchange_direct";
 
     public static void main(String[] argv) throws Exception {
         //创建连接工厂
@@ -23,11 +23,12 @@ public class Recv02 {
         //创建信道
         Channel channel = connection.createChannel();
         //绑定交换机
-        channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.FANOUT);
+        channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT);
         //获取队列（排他队列）
         String queueName = channel.queueDeclare().getQueue();
         //将队列和交换机进行绑定
-        channel.queueBind(queueName, EXCHANGE_NAME, "");
+        String errorRoutingKey="error";
+        channel.queueBind(queueName, EXCHANGE_NAME, errorRoutingKey);
 
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 

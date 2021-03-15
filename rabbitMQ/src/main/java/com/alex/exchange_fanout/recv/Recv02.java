@@ -1,11 +1,11 @@
-package com.alex.exchanges.recv;
+package com.alex.exchange_fanout.recv;
 
 import com.rabbitmq.client.*;
 
 /**
  * 发布/订阅-消息消费者
  */
-public class Recv01 {
+public class Recv02 {
 
     //定义交换机
     private final static String EXCHANGE_NAME = "exchange_fanout";
