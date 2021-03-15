@@ -1,18 +1,14 @@
-package com.alex.work.rr.recv;
+package com.alex.exchanges.recv;
 
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.DeliverCallback;
+import com.rabbitmq.client.*;
 
 /**
- * 工作队列-消息消费者
- * 轮询
+ * 发布/订阅-消息消费者
  */
 public class Recv01 {
 
-    //定义队列
-    private final static String QUEUE_NAME = "work_rr";
+    //定义交换机
+    private final static String EXCHANGE_NAME = "exchange_fanout";
 
     public static void main(String[] argv) throws Exception {
         //创建连接工厂
@@ -26,29 +22,23 @@ public class Recv01 {
         Connection connection = factory.newConnection();
         //创建信道
         Channel channel = connection.createChannel();
-        //声明队列
-        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+        //绑定交换机
+        channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.FANOUT);
+        //获取队列（排他队列）
+        String queueName = channel.queueDeclare().getQueue();
+        //将队列和交换机进行绑定
+        channel.queueBind(queueName, EXCHANGE_NAME, "");
+
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
-            try {
-                //模拟消费耗时
-                Thread.sleep(1200);
-            }catch (InterruptedException e){
-                e.printStackTrace();
-            }
             String message = new String(delivery.getBody(), "UTF-8");
             System.out.println(" [x] Received '" + message + "'");
-            /**
-             * 手动确认
-             *第二个参数：是否确认多条。false时代表一条一条确认
-             */
-            channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
         };
         /**
          * 监听队列消费消息
          * 第二个参数：收到消息后是否自动回值
          */
-        channel.basicConsume(QUEUE_NAME, false, deliverCallback, consumerTag -> { });
+        channel.basicConsume(queueName, true, deliverCallback, consumerTag -> { });
     }
 }

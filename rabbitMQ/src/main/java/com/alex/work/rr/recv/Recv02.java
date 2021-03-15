@@ -6,7 +6,7 @@ import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
 
 /**
- * 工作队列队列-消息消费者
+ * 工作队列-消息消费者
  * 轮询
  */
 public class Recv02 {
