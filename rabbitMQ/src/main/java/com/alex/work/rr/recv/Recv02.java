@@ -44,7 +44,10 @@ public class Recv02 {
              */
             channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
         };
-        //监听队列消费消息
+        /**
+         * 监听队列消费消息
+         * 第二个参数：收到消息后是否自动回值
+         */
         channel.basicConsume(QUEUE_NAME, false, deliverCallback, consumerTag -> { });
     }
 }

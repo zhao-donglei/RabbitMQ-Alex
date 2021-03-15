@@ -32,6 +32,7 @@ public class Recv01 {
 
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
             try {
+                //模拟消费耗时
                 Thread.sleep(1200);
             }catch (InterruptedException e){
                 e.printStackTrace();
@@ -40,11 +41,14 @@ public class Recv01 {
             System.out.println(" [x] Received '" + message + "'");
             /**
              * 手动确认
-             *第二个参数：是否确认多条
+             *第二个参数：是否确认多条。false时代表一条一条确认
              */
             channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
         };
-        //监听队列消费消息
+        /**
+         * 监听队列消费消息
+         * 第二个参数：收到消息后是否自动回值
+         */
         channel.basicConsume(QUEUE_NAME, false, deliverCallback, consumerTag -> { });
     }
 }
